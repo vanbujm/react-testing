@@ -43,9 +43,10 @@
   },
   "overrides": [
     {
-      "files": ["**/*.test.ts?x", "**/*.test.js?x"],
+      "files": ["**/*.test.tsx", "**/*.test.ts", "**/*.stories.tsx", "**/*.stories.ts"],
       "rules": {
-        "@typescript-eslint/no-empty-function": "off"
+        "@typescript-eslint/no-empty-function": "off",
+        "react/display-name": "off"
       }
     },
     {
