@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import './game.css';
 import { SquareValue } from '../Square';
 import { Board } from '../Board';
 
@@ -24,10 +23,47 @@ const calculateWinner = (squares: SquareValue[]) => {
   }, null);
 };
 
+type GameHistory = { squares: SquareValue[] }[];
+
+interface GameViewProps {
+  status: string;
+  handleClick: (i: number) => void;
+  jumpTo: (step: number) => void;
+  totalMoves: number;
+  squares: SquareValue[];
+}
+
+export const GameView: React.FC<GameViewProps> = ({ handleClick, jumpTo, status, totalMoves, squares }) => {
+  const moves = useMemo(
+    () =>
+      Array.from({ length: totalMoves }, (_, move) => {
+        const desc = move ? 'Go to move #' + move : 'Go to game start';
+        return (
+          <li key={move}>
+            <button onClick={() => jumpTo(move)}>{desc}</button>
+          </li>
+        );
+      }),
+    [jumpTo, totalMoves],
+  );
+
+  return (
+    <div className="game" data-testid="game">
+      <div className="game-board">
+        <Board squares={squares} onClick={(i) => handleClick(i)} />
+      </div>
+      <div className="game-info">
+        <div>{status}</div>
+        <ol>{moves}</ol>
+      </div>
+    </div>
+  );
+};
+
 export const Game = () => {
-  const [history, setHistory] = useState([
+  const [history, setHistory] = useState<GameHistory>([
     {
-      squares: Array(9).fill(null),
+      squares: Array.from({ length: 9 }, () => null as SquareValue),
     },
   ]);
   const [stepNumber, setStepNumber] = useState(0);
@@ -67,30 +103,9 @@ export const Game = () => {
   const { squares } = history[stepNumber];
   const winner = calculateWinner(squares);
 
-  const moves = useMemo(
-    () =>
-      history.map((step, move) => {
-        const desc = move ? 'Go to move #' + move : 'Go to game start';
-        return (
-          <li key={move}>
-            <button onClick={() => jumpTo(move)}>{desc}</button>
-          </li>
-        );
-      }),
-    [history, jumpTo],
-  );
-
   const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
   return (
-    <div className="game" data-testid="game">
-      <div className="game-board">
-        <Board squares={squares} onClick={(i) => handleClick(i)} />
-      </div>
-      <div className="game-info">
-        <div>{status}</div>
-        <ol>{moves}</ol>
-      </div>
-    </div>
+    <GameView handleClick={handleClick} jumpTo={jumpTo} squares={squares} status={status} totalMoves={history.length} />
   );
 };

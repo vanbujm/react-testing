@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Square, SquareValue } from '../Square';
 
 interface BoardProps {
@@ -7,14 +7,7 @@ interface BoardProps {
 }
 
 export const Board: React.FC<BoardProps> = ({ squares, onClick }) => {
-  // const renderSquare = (i: number) => {
-  //   return <Square value={squares[i]} onClick={() => onClick(i)} />;
-  // };
-  // Memoize this so that we dont generate it on every render
-  const renderSquare = useMemo<JSX.Element[]>(
-    () => Array.from({ length: 9 }, (_, i) => <Square value={squares[i]} onClick={() => onClick(i)} />),
-    [onClick, squares],
-  );
+  const renderSquare = Array.from({ length: 9 }, (_, i) => <Square value={squares[i]} onClick={() => onClick(i)} />);
 
   return (
     <div>
