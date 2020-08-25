@@ -43,7 +43,7 @@
   },
   "overrides": [
     {
-      "files": ["**/*.test.ts", "**/*.test.js"],
+      "files": ["**/*.test.ts?x", "**/*.test.js?x"],
       "rules": {
         "@typescript-eslint/no-empty-function": "off"
       }
