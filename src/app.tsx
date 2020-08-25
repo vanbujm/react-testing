@@ -1,55 +1,7 @@
-import React, { MouseEventHandler, useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import './app.css';
-
-type SquareValue = 'X' | 'O' | null;
-
-interface SquareProps {
-  value: SquareValue;
-  onClick: MouseEventHandler;
-}
-
-const Square: React.FC<SquareProps> = ({ onClick, value }) => {
-  return (
-    <button className="square" onClick={onClick} data-testid="square">
-      {value}
-    </button>
-  );
-};
-
-interface BoardProps {
-  squares: SquareValue[];
-  onClick: (i: number) => void;
-}
-
-const Board: React.FC<BoardProps> = ({ squares, onClick }) => {
-  // const renderSquare = (i: number) => {
-  //   return <Square value={squares[i]} onClick={() => onClick(i)} />;
-  // };
-  // Memoize this so that we dont generate it on every render
-  const renderSquare = useMemo<JSX.Element[]>(() => {
-    return Array.from({ length: 9 }, (_, i) => <Square value={squares[i]} onClick={() => onClick(i)} />);
-  }, [onClick, squares]);
-
-  return (
-    <div>
-      <div className="board-row">
-        {renderSquare[0]}
-        {renderSquare[1]}
-        {renderSquare[2]}
-      </div>
-      <div className="board-row">
-        {renderSquare[3]}
-        {renderSquare[4]}
-        {renderSquare[5]}
-      </div>
-      <div className="board-row">
-        {renderSquare[6]}
-        {renderSquare[7]}
-        {renderSquare[8]}
-      </div>
-    </div>
-  );
-};
+import { SquareValue } from './Square';
+import { Board } from './Board';
 
 const calculateWinner = (squares: SquareValue[]) => {
   const lines = [
