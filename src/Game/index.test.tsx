@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, getByTestId, fireEvent, getAllByRole, getByText } from '@testing-library/react';
-import { Game } from './app';
+import { Game } from './index';
 
 describe('App', () => {
   it('renders 😎', () => {

@@ -11,9 +11,10 @@ export const Board: React.FC<BoardProps> = ({ squares, onClick }) => {
   //   return <Square value={squares[i]} onClick={() => onClick(i)} />;
   // };
   // Memoize this so that we dont generate it on every render
-  const renderSquare = useMemo<JSX.Element[]>(() => {
-    return Array.from({ length: 9 }, (_, i) => <Square value={squares[i]} onClick={() => onClick(i)} />);
-  }, [onClick, squares]);
+  const renderSquare = useMemo<JSX.Element[]>(
+    () => Array.from({ length: 9 }, (_, i) => <Square value={squares[i]} onClick={() => onClick(i)} />),
+    [onClick, squares],
+  );
 
   return (
     <div>

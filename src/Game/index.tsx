@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import './app.css';
-import { SquareValue } from './Square';
-import { Board } from './Board';
+import './game.css';
+import { SquareValue } from '../Square';
+import { Board } from '../Board';
 
 const calculateWinner = (squares: SquareValue[]) => {
   const lines = [
@@ -80,12 +80,7 @@ export const Game = () => {
     [history, jumpTo],
   );
 
-  let status;
-  if (winner) {
-    status = 'Winner: ' + winner;
-  } else {
-    status = 'Next player: ' + (xIsNext ? 'X' : 'O');
-  }
+  const status = winner ? `Winner: ${winner}` : `Next player: ${xIsNext ? 'X' : 'O'}`;
 
   return (
     <div className="game" data-testid="game">
